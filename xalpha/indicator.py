@@ -194,6 +194,24 @@ class indicator:
                 res.append((li[i][0], li[j][0], (li[j][1] - li[i][1]) / li[i][1]))
         return min(res, key=lambda x: x[2])
 
+    def benchmark_max_drawdown(self, date=yesterdayobj()):
+        """
+        回测时间段的最大回撤
+
+        :param date: date obj or string
+        :returns: three elements tuple, the first two are the date obj of
+            start and end of the time window, the third one is the drawdown amplitude in unit 1.
+        """
+        li = [
+            (row["date"], row["netvalue"])
+            for i, row in self.bmprice[self.bmprice["date"] <= date].iterrows()
+        ]
+        res = []
+        for i, _ in enumerate(li):
+            for j in range(i + 1, len(li)):
+                res.append((li[i][0], li[j][0], (li[j][1] - li[i][1]) / li[i][1]))
+        return min(res, key=lambda x: x[2])
+
     ## 以上基本为聚宽提供的整体量化指标，以下是其他短线技术面指标
 
     def ma(self, window=5, col="netvalue"):
