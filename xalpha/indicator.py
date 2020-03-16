@@ -165,6 +165,10 @@ class indicator:
         rp = self.total_annualized_returns(date)
         return (rp - self.riskfree) / self.algorithm_volatility(date)
 
+    def benchmark_sharpe(self, date=yesterdayobj()):
+        rp = self.benchmark_annualized_returns(date)
+        return (rp - self.riskfree) / self.benchmark_volatility(date)
+
     def information_ratio(self, date=yesterdayobj()):
         rp = self.total_annualized_returns(date)
         rm = self.benchmark_annualized_returns(date)
